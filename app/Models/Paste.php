@@ -47,6 +47,15 @@ class Paste extends Model
         'ip',
         'is_protected'
     ];
+    public function isProtected(): bool
+    {
+        return $this->is_protected === ProtectedPasteEnum::PROTECTED;
+    }
+
+    public function isPublic(): bool
+    {
+        return $this->is_protected === ProtectedPasteEnum::PUBLIC;
+    }
     public static function fromRequest(Request $request): self
     {
         return static::createNew(new static, $request);
@@ -93,7 +102,7 @@ class Paste extends Model
 
         $this->password = Hash::make($password);
     }
-        /**
+    /**
      * Check if the provided password is correct
      *
      * @param string $password
@@ -106,6 +115,15 @@ class Paste extends Model
         }
 
         return Hash::check($password, $this->password);
+    }
+    public function scopePublic($query)
+    {
+        return $query->where('is_protected', ProtectedPasteEnum::PUBLIC);
+    }
+
+    public function scopeProtected($query)
+    {
+        return $query->where('is_protected', ProtectedPasteEnum::PROTECTED);
     }
 
     /**
