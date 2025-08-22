@@ -38,7 +38,11 @@ class PastesController extends Controller
 
     public function show(Paste $paste): View
     {
-        return view('show', compact('paste'));
+        try {
+            return view('show', compact('paste'));
+        } catch (\Exception $e) {
+            throw new \Exception('Something went wrong!');
+        }
     }
 
     public function raw(Paste $paste): View
