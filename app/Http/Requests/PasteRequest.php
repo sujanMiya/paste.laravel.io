@@ -21,6 +21,16 @@ class PasteRequest extends FormRequest
     {
         return [
             'code' => 'required|max:50000',
+            'parent_id' => 'integer|nullable|exists:pastes,id',
+        ];
+    }
+    public function messages(): array
+    {
+        return [
+            'code.required' => 'Code is required.',
+            'code.max' => 'Code may not be greater than 50000 characters.',
+            'parent_id.integer' => 'Parent ID must be an integer.',
+            'parent_id.exists' => 'Parent ID must exist in the pastes table.',
         ];
     }
 }
