@@ -30,7 +30,7 @@ class PasteRequest extends FormRequest
                 Rule::in([
                     ProtectedPasteEnum::PUBLIC->value,
                     ProtectedPasteEnum::PROTECTED->value,
-                ])
+                ]),
             ],
         ];
     }

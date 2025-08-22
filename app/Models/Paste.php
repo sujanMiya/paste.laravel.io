@@ -19,21 +19,23 @@ class Paste extends Model
      * @var string
      */
     protected $table = 'pastes';
+
     /**
-     *
      * @var array
      */
     protected $casts = [
         'is_protected' => ProtectedPasteEnum::class,
     ];
+
     /**
      * The attributes that should be hidden for serialization.
      *
      * @var array
      */
     protected $hidden = [
-        'password'
+        'password',
     ];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -45,8 +47,9 @@ class Paste extends Model
         'author_id',
         'parent_id',
         'ip',
-        'is_protected'
+        'is_protected',
     ];
+
     public function isProtected(): bool
     {
         return $this->is_protected === ProtectedPasteEnum::PROTECTED;
@@ -56,6 +59,7 @@ class Paste extends Model
     {
         return $this->is_protected === ProtectedPasteEnum::PUBLIC;
     }
+
     public static function fromRequest(Request $request): self
     {
         return static::createNew(new static, $request);
@@ -84,11 +88,9 @@ class Paste extends Model
 
         return $paste;
     }
+
     /**
      * Securely set the password using bcrypt hashing
-     *
-     * @param string $password
-     * @return void
      */
     public function setPassword(string $password): void
     {
@@ -102,20 +104,21 @@ class Paste extends Model
 
         $this->password = Hash::make($password);
     }
+
     /**
      * Check if the provided password is correct
      *
-     * @param string $password
-     * @return bool
+     * @param  string  $password
      */
     public function checkPassword(array $password): bool
     {
-        if (!$this->isProtected() || !$this->password) {
+        if (! $this->isProtected() || ! $this->password) {
             return false;
         }
 
         return Hash::check($password['password'], $this->password);
     }
+
     public function scopePublic($query)
     {
         return $query->where('is_protected', ProtectedPasteEnum::PUBLIC);
