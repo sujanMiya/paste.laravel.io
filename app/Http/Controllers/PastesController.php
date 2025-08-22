@@ -1,17 +1,33 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PasteRequest;
 use App\Models\Paste;
+use App\Services\PastesService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
 class PastesController extends Controller
 {
+    protected PastesService $pastesService;
+
+    public function __construct(PastesService $pastesService)
+    {
+        $this->pastesService = $pastesService;
+    }
+    public function home(): View
+    {
+        try {
+            return view("create");
+        } catch (\Exception $e) {
+            return view("error", ["message" => $e->getMessage()]);
+        }
+    }
     public function post(PasteRequest $request): RedirectResponse
     {
-        dd($request->all());
         $paste = Paste::fromRequest($request);
 
         return redirect()->route('show', $paste->hash);
