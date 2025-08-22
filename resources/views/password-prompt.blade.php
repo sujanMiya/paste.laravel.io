@@ -8,7 +8,7 @@
         <x-main>
             <div class="h-full font-mono text-lg">
                 <h1 class="text-3xl md:text-4xl font-bold text-white text-balance text-center typewriter">
-                    This content is password protected. Please enter the password.
+                    This paste is password protected
                 </h1>
             </div>
     </x-main>
