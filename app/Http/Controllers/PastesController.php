@@ -16,6 +16,7 @@ class PastesController extends Controller
 
         return redirect()->route('show', $paste->hash);
     }
+
     public function sessionKeyCreate($paste): string
     {
         return "paste_unlocked_{$paste->hash}";
@@ -24,10 +25,11 @@ class PastesController extends Controller
     public function show(Paste $paste): View
     {
         if ($paste->isProtected()) {
-            if (!session()->has($this->sessionKeyCreate($paste))) {
+            if (! session()->has($this->sessionKeyCreate($paste))) {
                 return view('password-prompt', compact('paste'));
             }
         }
+
         return view('show', compact('paste'));
     }
 
@@ -47,10 +49,11 @@ class PastesController extends Controller
     {
         if ($paste->isProtected()) {
 
-            if (!session()->has($this->sessionKeyCreate($paste))) {
+            if (! session()->has($this->sessionKeyCreate($paste))) {
                 abort(403, 'This paste is password protected.');
             }
         }
+
         return view('raw', compact('paste'));
     }
 
@@ -58,13 +61,14 @@ class PastesController extends Controller
     {
         if ($paste->isProtected()) {
 
-            if (!session()->has($this->sessionKeyCreate($paste))) {
+            if (! session()->has($this->sessionKeyCreate($paste))) {
                 return view('password-prompt', [
                     'paste' => $paste,
-                    'redirect_to' => 'edit'
+                    'redirect_to' => 'edit',
                 ]);
             }
         }
+
         return view('edit', compact('paste'));
     }
 
@@ -72,7 +76,7 @@ class PastesController extends Controller
     {
         if ($paste->isProtected()) {
 
-            if (!session()->has($this->sessionKeyCreate($paste))) {
+            if (! session()->has($this->sessionKeyCreate($paste))) {
                 abort(403, 'You need to unlock the original paste first.');
             }
         }
