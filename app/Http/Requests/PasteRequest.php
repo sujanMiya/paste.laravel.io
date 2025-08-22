@@ -24,6 +24,7 @@ class PasteRequest extends FormRequest
             'parent_id' => 'integer|nullable|exists:pastes,id',
         ];
     }
+
     public function messages(): array
     {
         return [

@@ -1,16 +1,20 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Services;
+
 use App\DTO\PreparePasteDTO;
 use App\Models\Paste;
 use Arr;
 use Ramsey\Uuid\Uuid;
+
 class PastesService
 {
     public function createPaste(array $data): Paste
     {
         $prepareDTO = $this->preparePasteDTO($data);
+
         return $this->createService($prepareDTO);
     }
 
@@ -23,6 +27,7 @@ class PastesService
     {
         return $paste->delete();
     }
+
     public function preparePasteDTO(array $data): PreparePasteDTO
     {
         return new PreparePasteDTO(

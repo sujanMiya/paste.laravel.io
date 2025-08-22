@@ -18,18 +18,21 @@ class PastesController extends Controller
     {
         $this->pastesService = $pastesService;
     }
+
     public function home(): View
     {
         try {
-            return view("create");
+            return view('create');
         } catch (\Exception $e) {
-            return view("error", ["message" => $e->getMessage()]);
+            return view('error', ['message' => $e->getMessage()]);
         }
     }
+
     public function store(PasteRequest $request): RedirectResponse
     {
         try {
             $paste = $this->pastesService->createPaste($request->validated());
+
             return redirect()->route('show', $paste->hash);
         } catch (\Exception $e) {
             throw new \Exception('Something went wrong!');

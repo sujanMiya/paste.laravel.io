@@ -17,12 +17,13 @@ class Paste extends Model
      * @var string
      */
     protected $table = 'pastes';
+
     protected $casts = [
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
-    protected $fillable = ['code', 'hash','parent_id'];
 
+    protected $fillable = ['code', 'hash', 'parent_id'];
 
     public static function fromFork(self $fork, Request $request): self
     {
