@@ -30,9 +30,8 @@ class PastesController extends Controller
 
     public function unlock(PasteProtectionRequest $request, Paste $paste): RedirectResponse
     {
-        $f =$request->validated();
-        dd($f);
-        if ($paste->checkPassword($request->input('password'))) {
+
+        if ($paste->checkPassword($request->validated())) {
             $sessionKey = "paste_unlocked_{$paste->hash}";
             session()->put($sessionKey, true);
 

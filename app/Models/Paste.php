@@ -108,13 +108,13 @@ class Paste extends Model
      * @param string $password
      * @return bool
      */
-    public function checkPassword(string $password): bool
+    public function checkPassword(array $password): bool
     {
         if (!$this->isProtected() || !$this->password) {
             return false;
         }
 
-        return Hash::check($password, $this->password);
+        return Hash::check($password['password'], $this->password);
     }
     public function scopePublic($query)
     {
