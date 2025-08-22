@@ -26,11 +26,14 @@ class PastesController extends Controller
             return view("error", ["message" => $e->getMessage()]);
         }
     }
-    public function post(PasteRequest $request): RedirectResponse
+    public function store(PasteRequest $request): RedirectResponse
     {
-        $paste = Paste::fromRequest($request);
-
-        return redirect()->route('show', $paste->hash);
+        try {
+            $paste = $this->pastesService->createPaste($request->validated());
+            return redirect()->route('show', $paste->hash);
+        } catch (\Exception $e) {
+            throw new \Exception('Something went wrong!');
+        }
     }
 
     public function show(Paste $paste): View

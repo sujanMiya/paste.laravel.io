@@ -17,6 +17,7 @@ class Paste extends Model
      * @var string
      */
     protected $table = 'pastes';
+    protected $fillable = ['code', 'hash'];
 
     public static function fromRequest(Request $request): self
     {
