@@ -6,6 +6,7 @@
 </div>
 
 {!! $errors->first('code', '<p class="mt-4 text-red-600 font-medium text-center">:message</p>') !!}
+{!! $errors->first('password', '<p class="mt-4 text-red-600 font-medium text-center">:message</p>') !!}
 
 <nav class="mt-4" aria-label="Sidebar">
     <div class="space-y-1">

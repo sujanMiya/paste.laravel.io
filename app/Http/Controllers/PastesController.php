@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PasteProtectionRequest;
 use App\Http\Requests\PasteRequest;
 use App\Models\Paste;
 use Illuminate\Http\RedirectResponse;
@@ -27,12 +28,10 @@ class PastesController extends Controller
         return view('show', compact('paste'));
     }
 
-    public function unlock(Request $request, Paste $paste): RedirectResponse
+    public function unlock(PasteProtectionRequest $request, Paste $paste): RedirectResponse
     {
-        $request->validate([
-            'password' => 'required|string',
-        ]);
-
+        $f =$request->validated();
+        dd($f);
         if ($paste->checkPassword($request->input('password'))) {
             $sessionKey = "paste_unlocked_{$paste->hash}";
             session()->put($sessionKey, true);
