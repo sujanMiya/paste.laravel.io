@@ -11,7 +11,6 @@ class PastesController extends Controller
 {
     public function post(PasteRequest $request): RedirectResponse
     {
-        dd($request->all());
         $paste = Paste::fromRequest($request);
 
         return redirect()->route('show', $paste->hash);

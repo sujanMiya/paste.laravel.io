@@ -13,7 +13,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('pastes', function (Blueprint $table) {
-            $table->string('password', 30)->nullable()->after('hash');
+            $table->string('password', 250)->nullable()->after('hash');
             $table->tinyInteger('is_protected')->default(ProtectedPasteEnum::PUBLIC)->after('password');
         });
     }

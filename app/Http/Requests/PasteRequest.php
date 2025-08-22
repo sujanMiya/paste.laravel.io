@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\ProtectedPasteEnum;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class PasteRequest extends FormRequest
 {
@@ -21,6 +23,15 @@ class PasteRequest extends FormRequest
     {
         return [
             'code' => 'required|max:50000',
+            'password' => 'nullable|string|min:3|max:30',
+            'is_protected' => [
+                'nullable',
+                'integer',
+                Rule::in([
+                    ProtectedPasteEnum::PUBLIC->value,
+                    ProtectedPasteEnum::PROTECTED->value,
+                ])
+            ],
         ];
     }
 }
