@@ -56,11 +56,26 @@ class PastesController extends Controller
 
     public function edit(Paste $paste): View
     {
+        if ($paste->isProtected()) {
+
+            if (!session()->has($this->sessionKeyCreate($paste))) {
+                return view('password-prompt', [
+                    'paste' => $paste,
+                    'redirect_to' => 'edit'
+                ]);
+            }
+        }
         return view('edit', compact('paste'));
     }
 
     public function fork(PasteRequest $request, Paste $paste): RedirectResponse
     {
+        if ($paste->isProtected()) {
+
+            if (!session()->has($this->sessionKeyCreate($paste))) {
+                abort(403, 'You need to unlock the original paste first.');
+            }
+        }
         $paste = Paste::fromFork($paste, $request);
 
         return redirect()->route('show', $paste->hash);
