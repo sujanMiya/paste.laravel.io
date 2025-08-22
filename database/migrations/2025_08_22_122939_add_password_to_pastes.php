@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\ProtectedPasteEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,7 +14,7 @@ return new class extends Migration
     {
         Schema::table('pastes', function (Blueprint $table) {
             $table->string('password', 30)->nullable()->after('hash');
-            $table->tinyInteger('is_protected')->default(0)->after('password');
+            $table->tinyInteger('is_protected')->default(ProtectedPasteEnum::PUBLIC)->after('password');
         });
     }
 
