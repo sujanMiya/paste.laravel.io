@@ -18,7 +18,29 @@ class PastesController extends Controller
 
     public function show(Paste $paste): View
     {
+        if ($paste->isProtected()) {
+            $sessionKey = "paste_unlocked_{$paste->hash}";
+            if (!session()->has($sessionKey)) {
+                return view('password-prompt', compact('paste'));
+            }
+        }
         return view('show', compact('paste'));
+    }
+
+    public function unlock(Request $request, Paste $paste): RedirectResponse
+    {
+        $request->validate([
+            'password' => 'required|string',
+        ]);
+
+        if ($paste->checkPassword($request->input('password'))) {
+            $sessionKey = "paste_unlocked_{$paste->hash}";
+            session()->put($sessionKey, true);
+
+            return redirect()->route('show', $paste->hash);
+        }
+
+        return back()->withErrors(['password' => 'Invalid password']);
     }
 
     public function raw(Paste $paste): View

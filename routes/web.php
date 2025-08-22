@@ -7,5 +7,6 @@ Route::view('/', 'create')->name('home');
 Route::post('/', [PastesController::class, 'post']);
 Route::get('{paste}', [PastesController::class, 'show'])->name('show');
 Route::get('{paste}/raw', [PastesController::class, 'raw'])->name('raw');
+Route::post('{paste}/unlock', [PastesController::class, 'unlock'])->name('unlock');
 Route::get('fork/{paste}', [PastesController::class, 'edit'])->name('edit');
 Route::post('fork/{paste}', [PastesController::class, 'fork']);
